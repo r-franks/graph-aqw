@@ -1,0 +1,537 @@
+{
+    "7 Deadly Dragons": [
+        "wrath-location",
+        "gluttony-location",
+        "mysterious-egg-location",
+        "greed",
+        "ashfall-camp",
+        "sloth",
+        "lust",
+        "pride",
+        "envy-location-2"
+    ],
+    "Age of Ruin: Voice in the Sea": [
+        "sunlight-zone",
+        "trench-observatory",
+        "abyssal-zone",
+        "ashray",
+        "sea-voice",
+        "god-of-the-depths-bonus-zone",
+        "twilight-zone",
+        "midnight-zone",
+        "termina-temple"
+    ],
+    "Arcangrove": [
+        "ruins-of-great-gilead",
+        "the-cloister-location",
+        "mount-mafic",
+        "natatorium",
+        "mudluk-village",
+        "ledgermayne-location",
+        "arcangrove",
+        "elemental"
+    ],
+    "Basani Island": [
+        "ruins-of-shurpu",
+        "basani",
+        "volcano"
+    ],
+    "Bloodtusk": [
+        "ancient-temple",
+        "bloodtusk-ravine",
+        "ravine-crossroads",
+        "bloodtusk-war-location",
+        "alliance",
+        "ore-caverns",
+        "dream-nexus",
+        "ravine-temple"
+    ],
+    "Book of Monsters: The Destroyer": [
+        "charred-path",
+        "the-rift",
+        "underglade",
+        "extriki-location"
+    ],
+    "Book of Monsters: The Reshaper": [
+        "guardian-tree",
+        "twisted-caverns",
+        "pilgrimage",
+        "broken-woods",
+        "the-rift",
+        "battlegrounds"
+    ],
+    "Celestial Realm Map": [
+        "celestial-realm",
+        "lost-ruins",
+        "celestial-past",
+        "lost-ruins-war",
+        "celestial-arena"
+    ],
+    "Chaos Finale": [
+        "shadow-rise",
+        "final-showdown",
+        "shadow-attack",
+        "deadly-dungeon",
+        "frozen-northlands",
+        "pyramid-of-pain",
+        "falconreach",
+        "confrontation-location",
+        "mount-doomskull-location",
+        "chaos-realm",
+        "dreadhaven",
+        "chaos-beast",
+        "battle-drakath",
+        "final-battle",
+        "chaos-lord",
+        "new-finale",
+        "killer-catacombs"
+    ],
+    "Chiral Valley": [
+        "escherion-s-tower",
+        "hydra-lake",
+        "mobius",
+        "relativity",
+        "cornelis-ruins",
+        "faerie-forest"
+    ],
+    "ChronoSpan": [
+        "deep-chaos",
+        "time-library",
+        "mq-lesson",
+        "ultravoid",
+        "the-span",
+        "aq-lesson",
+        "time-void",
+        "df-lesson",
+        "time-space"
+    ],
+    "Dage the Evil: Undead Legion": [
+        "laken-location",
+        "envy-location-1",
+        "forgotten-tombs-location",
+        "seraph",
+        "dark-fortress-1"
+    ],
+    "Dage's Dark Birthday": [
+        "dark-path",
+        "future-legion",
+        "abyssal-lair",
+        "game-menu",
+        "undervoid",
+        "seven-circles",
+        "maps",
+        "dark-birthday",
+        "void-vault",
+        "future-war",
+        "dark-fortress-1"
+    ],
+    "Darkovia": [
+        "safiria-s-castle-location",
+        "darkovia-graveyard",
+        "darkovia-forest",
+        "vampire-warground",
+        "lycan-warground",
+        "wolfwing-s-lair",
+        "the-chaos-cave",
+        "lycan-ridge"
+    ],
+    "Doomwood": [
+        "lightguard-keep",
+        "shadowfall-war-location",
+        "necro-tower",
+        "doomwood-forest",
+        "mad-scientist-s-yard",
+        "temple-of-the-light",
+        "mad-scientist-s-mountain",
+        "necro-u",
+        "mad-scientist-s-lab",
+        "chopping-maul"
+    ],
+    "Doomwood Part 2": [
+        "necropolis-dungeon",
+        "necropolis-cavern",
+        "necropolis"
+    ],
+    "Doomwood Part 3": [
+        "tech-fortress",
+        "thorngarde",
+        "tech-dungeon",
+        "stonewood",
+        "stonewood-forest"
+    ],
+    "DragonFable Origins": [
+        "charred-plains",
+        "firewar",
+        "drakonnan-location",
+        "north-mountain"
+    ],
+    "Dwarfhold": [
+        "dwarfhold-keep",
+        "llama-farm",
+        "mountain-path",
+        "rock-roc-location",
+        "dwarf-prison",
+        "lolosia",
+        "citadel",
+        "inn-ternet",
+        "yokai-ferry",
+        "pinewood-forest",
+        "upper-dwarfhold",
+        "stalagbite-location",
+        "vath-s-keep"
+    ],
+    "Elegy of Madness": [
+        "genesis-garden",
+        "astravia-castle",
+        "astravia",
+        "astravia-judgement",
+        "first-observatory",
+        "eridani-past",
+        "the-world",
+        "darkon-s-garden",
+        "astravia-past",
+        "eridani"
+    ],
+    "Etherstorm Wastes": [
+        "earth-storm",
+        "etherstorm-war-desoloth",
+        "etherstorm-war-good",
+        "air-storm",
+        "etherstorm-war-evil",
+        "fire-storm",
+        "water-storm"
+    ],
+    "Frostval in July": [
+        "ice-storm",
+        "light-festival",
+        "bright-lights"
+    ],
+    "Frostval Map": [
+        "frozensoul-queen-location",
+        "ice-cave",
+        "alpine",
+        "frost-deep",
+        "light-festival",
+        "ice-volcano",
+        "frostvale",
+        "toy-factory",
+        "howard-s-hill",
+        "coldwind-valley",
+        "frostval-2016",
+        "gifthulu-location",
+        "icerise-keep",
+        "snowy-vale",
+        "frozen-ruins",
+        "ice-storm",
+        "maps",
+        "darkwinter",
+        "icerise-past-location",
+        "karok-vs-kezeroth",
+        "golden-ruins",
+        "battlefield",
+        "icewind-pass",
+        "snow-globe",
+        "ultra-frostfang",
+        "winter-horror",
+        "frostval-in-peril",
+        "game-menu",
+        "cryostorm-war-location",
+        "frozen-tower",
+        "cryostorm-tundra"
+    ],
+    "Frozen Northlands": [
+        "guwio-village",
+        "northland-lights",
+        "mount-frost",
+        "king-coal",
+        "david-s-cabin",
+        "snow-path"
+    ],
+    "Greenguard Forest": [
+        "cellar",
+        "battleon",
+        "forest",
+        "horc-fort",
+        "sleuthhound-inn",
+        "cysero-s-clubhouse",
+        "farm",
+        "river",
+        "shallow",
+        "centaur-21",
+        "dwakel-crash-site",
+        "willow-creek",
+        "battle-under",
+        "noobshire"
+    ],
+    "Harvest of Nightmares: Feast of Fear": [
+        "gothic-dream",
+        "nightmare-war",
+        "memet-s-nightmare"
+    ],
+    "Heroes Heart Day Map": [
+        "swaggy-s-chateau",
+        "wheel-of-love-location",
+        "beleen-s-dream",
+        "wubbles",
+        "love-spell",
+        "love-lockdown-location",
+        "necromance-location",
+        "game-menu",
+        "tournament-of-hearts",
+        "canal-shore",
+        "fezzini",
+        "maps",
+        "love-s-curse",
+        "love"
+    ],
+    "Infernal Invasion": [
+        "safiria-invasion",
+        "doom-pally",
+        "darkovia-invasion",
+        "castle-invasion",
+        "infernal-spire",
+        "lycan-invasion",
+        "shadowfall-invasion"
+    ],
+    "Isle of Fotia": [
+        "fotia",
+        "styx",
+        "under-realm",
+        "judgement",
+        "dark-fortress-2",
+        "frozen-fotia"
+    ],
+    "Memet's Realm": [
+        "beach-party",
+        "moonlab",
+        "spookeasy",
+        "zorba-s-palace",
+        "dream-master",
+        "byrodax",
+        "nightmare-location",
+        "freaki-tiki-location"
+    ],
+    "Mirror Realm": [
+        "overworld",
+        "lightovia-cave",
+        "battleoff",
+        "brightfall",
+        "mirror-portal",
+        "shadow-void-location",
+        "reddeath-swamp"
+    ],
+    "Mythsong": [
+        "lorestockapalooza",
+        "mythsong-city",
+        "orkestra",
+        "lead-zepellin",
+        "beehive",
+        "stairway-to-haven"
+    ],
+    "Neverglades": [
+        "ruins",
+        "forest-of-chaos",
+        "marsh",
+        "guru"
+    ],
+    "New Years Map": [
+        "everfrost-valley",
+        "game-menu",
+        "grim-attack",
+        "chrono-phoenix-location",
+        "darksun",
+        "new-year-s-lab",
+        "maps",
+        "time-ritual-location",
+        "new-year",
+        "frostmane"
+    ],
+    "Northpointe Island": [
+        "northpointe"
+    ],
+    "Oaklore Forest": [
+        "swordhaven-graveyard",
+        "swordhaven-sewer",
+        "boxes",
+        "portal-location",
+        "prison",
+        "swordhaven",
+        "game-haven"
+    ],
+    "Oaklore Intro": [
+        "swordhaven-gates",
+        "shadowfall",
+        "swordhaven-castle-undead",
+        "swordhaven-undead",
+        "oaklore",
+        "swordhaven-castle-location"
+    ],
+    "Ring of Fire Islands": [
+        "icestorm-arena",
+        "pyrewatch",
+        "embersea",
+        "shadowflame",
+        "firestorm-forge",
+        "feverfew",
+        "brimstone",
+        "nightmare-location",
+        "ultra-tyndarius-location",
+        "phoenixrise",
+        "ultra-phedra-location",
+        "lavarun"
+    ],
+    "Sandsea": [
+        "saloon",
+        "sandsea-port",
+        "pencil-puddle",
+        "djinn-gate",
+        "cave-of-wanders",
+        "oasis",
+        "sand-castle",
+        "djinn",
+        "hyperium-starship",
+        "j6-s-secret-hideout-map",
+        "djinn-guardians",
+        "sek-duat-pyramids"
+    ],
+    "Sepulchure's Rise": [
+        "lightguard-war-location",
+        "luma-fortress",
+        "noxus-tower"
+    ],
+    "Sepulchure's Saga": [
+        "alteon-fight",
+        "guardian-tower-location-2",
+        "ebonslate-dungeon",
+        "valley-of-doom",
+        "scarsgarde",
+        "ebonslate-fortress",
+        "guardian-tower-location-3",
+        "darkplane",
+        "valen-s-choice"
+    ],
+    "Seraphic Saga": [
+        "laken-location",
+        "underworld",
+        "envy-location-1",
+        "world-soul-location",
+        "forgotten-tombs-location",
+        "seraphic-war-hub",
+        "seraph",
+        "dark-fortress-1"
+    ],
+    "Shadows of Chaos": [
+        "chaos-duality",
+        "chaos-amulet",
+        "bright-forest-past",
+        "crownsreach",
+        "brightshadow",
+        "laguna",
+        "bright-chaos",
+        "bright-forest",
+        "laguna-beach",
+        "shadowoff"
+    ],
+    "Shadows of War": [
+        "shadowsong",
+        "dark-alliance",
+        "shadowgrove",
+        "granite-cove",
+        "shadowlord-keep",
+        "junkheap",
+        "aozora-hills-location",
+        "ghost-nexus",
+        "shadow-war-location",
+        "inner-shadows",
+        "dark-ally",
+        "junkhoard",
+        "timestream",
+        "blacksea-keep"
+    ],
+    "Shadows of War II": [
+        "world-s-core",
+        "timestream-war",
+        "mana-cradle",
+        "deadlines",
+        "fire-avatar",
+        "fire-plane-invasion",
+        "ruined-crown",
+        "fire-invasion",
+        "time-keep",
+        "shadowfire-plane",
+        "war-training"
+    ],
+    "Skull Punch": [
+        "skull-punch-island"
+    ],
+    "Skullholme": [
+        "underworld",
+        "bludrut-keep",
+        "shadowfall",
+        "death-location",
+        "vasalkar-s-lair"
+    ],
+    "Summer 2015 Adventure Map": [
+        "deadmoor",
+        "tree-titan",
+        "dread-space-location",
+        "luna-cove",
+        "game-menu",
+        "the-collector-location",
+        "maps",
+        "cysero-s-secret",
+        "chaos-queen-beleen-location"
+    ],
+    "Swordhaven City": [
+        "swordhaven-archives",
+        "swordhaven-falls",
+        "ceremony",
+        "chaos-altar",
+        "swordhaven-castle-roof",
+        "swordhaven-armory-location",
+        "swordhaven-castle-location"
+    ],
+    "Throne of Darkness": [
+        "death-pit-arena",
+        "shifting-pyramid",
+        "shatterglass-maze",
+        "fourth-dimensional-pyramid",
+        "mysterious-dungeon",
+        "castle-of-bone",
+        "flying-bacon-cat-fortress",
+        "the-towers",
+        "paradox-portal",
+        "cursed-antique-shop",
+        "deep-portalspace",
+        "laser-shark-invasion",
+        "death-pit-pvp",
+        "tower-of-mirrors"
+    ],
+    "ThunderForge": [
+        "falguard",
+        "the-venom-vaults",
+        "the-death-pits",
+        "the-storm-temple",
+        "blackhorn-tomb",
+        "onslaught-tower"
+    ],
+    "Yokai": [
+        "yokai-war-location",
+        "odokuro",
+        "yokai-river",
+        "dragonkoi-tournament",
+        "lolosia",
+        "yokai-ferry",
+        "bamboo-forest",
+        "kitsune-s-lair",
+        "yokai-graveyard",
+        "akiba",
+        "yokai-junkyard",
+        "hachiko-hotel-location"
+    ],
+    "Zombies": [
+        "doom-war-location",
+        "doom-haven",
+        "sepulchure-location"
+    ]
+}
