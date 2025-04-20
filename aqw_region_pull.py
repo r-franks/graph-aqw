@@ -1,6 +1,7 @@
 import time
 import requests
 import json
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 
 
@@ -36,7 +37,7 @@ def get_loc_in_regions(region, sleep_duration=1):
 def get_region_to_loc_dict(region_url="http://aqwwiki.wikidot.com/locations"):
     region_dict = get_region_dict(region_url)
     region_to_loc_dict = {}
-    for k, v in region_dict.items():
+    for k, v in tqdm(region_dict.items()):
         try:
             region_to_loc_dict[k] = get_loc_in_regions(v)
         except:

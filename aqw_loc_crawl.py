@@ -86,6 +86,9 @@ def is_loc_geographic(s):
 # base url for wiki
 BASE_URL = "http://aqwwiki.wikidot.com/"
 def get_connected_rooms(map_extension, return_map_name=True, return_permanence=True, condition=None, sleep_duration=1):
+    if condition is None:
+        condition = lambda x: True
+
     # sleep to avoid overwhelming server
     time.sleep(sleep_duration)
 
@@ -108,7 +111,8 @@ def get_connected_rooms(map_extension, return_map_name=True, return_permanence=T
         try:
             is_location = "location" in map_site.find("div", {"class": "page-tags"}).get_text()
         except:
-            raise AttributeError(f"{map_extension} text issue")
+            print(f"{map_extension} text issue")
+            return None
 
     # handle case where link is not to a location
     if not is_location:
@@ -220,7 +224,12 @@ def get_connected_rooms(map_extension, return_map_name=True, return_permanence=T
 ##################################################################################################
 ################################## RECURSIVE WIKI CRAWL ##########################################
 ##################################################################################################
-def aqw_wiki_crawl(starting_rooms, degree = 16, pursue_impermanent=False, sleep_duration = 1, verbose=2):
+def aqw_wiki_crawl(starting_rooms, degree = 16, pursue_impermanent=False, condition="none", sleep_duration = 1, verbose=2):
+    if condition == "none":
+        condition_func = None
+    elif condition == "geo":
+        condition_func = is_loc_geographic
+
     # time the crawl
     start = time.time()
     
@@ -235,11 +244,16 @@ def aqw_wiki_crawl(starting_rooms, degree = 16, pursue_impermanent=False, sleep_
     # (recursively traverses all access points to a room)
     def expand_graph(room, degree, pursue_impermanent=False, sleep_duration=1, verbose=2):
         # retrieve access points, room name
-        access_points, map_name, is_permanent = get_connected_rooms(room, 
-                                                                    return_map_name=True, 
-                                                                    return_permanence=True,
-                                                                    condition=is_loc_geographic,
-                                                                    sleep_duration=sleep_duration)
+        result = get_connected_rooms(room, 
+                                     return_map_name=True, 
+                                     return_permanence=True,
+                                     condition=condition_func,
+                                     sleep_duration=sleep_duration)
+        if result is None:
+            return None
+        else:
+            access_points, map_name, is_permanent = result
+
         query_counter[0] = query_counter[0] + 1
     
         # update room info
@@ -267,7 +281,6 @@ def aqw_wiki_crawl(starting_rooms, degree = 16, pursue_impermanent=False, sleep_
                                  verbose=verbose)
         return None
 
-    print(starting_rooms)
     non_location_links = ["game-menu", "maps"]
     for starting_room in starting_rooms:
         if starting_room not in visited and not starting_room in non_location_links:
@@ -307,6 +320,7 @@ def aqw_wiki_crawl(starting_rooms, degree = 16, pursue_impermanent=False, sleep_
     crawl_params = {"starting_rooms": starting_rooms,
                     "degree": degree,
                     "pursue_impermanent": pursue_impermanent,
+                    "condition": condition,
                     "sleep_duration": sleep_duration,
                     "verbose": verbose}
     output_dict = {"crawl_params": crawl_params,
@@ -384,7 +398,7 @@ def plot_crawl_outputs(crawl_outputs,
     for k, v in region_to_loc_map.items():
         region_to_loc_map_filt[k] = []
         for loc in v:
-            if loc in all_nodes:
+            if loc in link_to_name_dict:
                 region_to_loc_map_filt[k].append(link_to_name_dict[loc])
     
     # determine number of locations in each region
@@ -420,7 +434,8 @@ def plot_crawl_outputs(crawl_outputs,
             node_color=[loc_to_color_map[node] for node in G.nodes()], 
             ax=ax)
     fig.tight_layout()
-    fig.savefig(f"{save_loc}/aqw_graph_undir.png", dpi=300)
+    # fig.savefig(f"{save_loc}/aqw_graph_undir.png", dpi=300)
+    fig.savefig(f"{save_loc}/aqw_graph_undir.svg")
 
     # plot directed graph (unprocessed)
     #################################################################################
@@ -434,7 +449,8 @@ def plot_crawl_outputs(crawl_outputs,
             node_color=[loc_to_color_map.get(node, "lightblue") for node in G.nodes()], 
             ax=ax)
     fig.tight_layout()
-    fig.savefig(f"{save_loc}/aqw_graph_dir_raw.png", dpi=300)
+    # fig.savefig(f"{save_loc}/aqw_graph_dir_raw.png", dpi=300)
+    fig.savefig(f"{save_loc}/aqw_graph_dir_raw.svg")
 
     # plot directed graph (filtered)
     #################################################################################
@@ -449,14 +465,15 @@ def plot_crawl_outputs(crawl_outputs,
             node_color=[loc_to_color_map.get(node, "lightblue") for node in G.nodes()], 
             ax=ax)
     fig.tight_layout()
-    fig.savefig(f"{save_loc}/aqw_graph_dir_filt.png", dpi=300)
+    # fig.savefig(f"{save_loc}/aqw_graph_dir_filt.png", dpi=300)
+    fig.savefig(f"{save_loc}/aqw_graph_dir_filt.svg")
 
     # plot undirected graph size as fxn of degree
     #################################################################################
     max_degree_room = max(DiGraph_Proc.degree, key=lambda x: x[1])[0]
 
     # plot num nodes vs degree
-    fig, ax = plt.subplots(figsize=[6,4])
+    fig, ax = plt.subplots(figsize=[48, 32])
     nodes_from_start = []
     degree = crawl_params["degree"]
     diameters = [nx.diameter(DiGraph_Proc.subgraph(c).to_undirected()) for c in nx.weakly_connected_components(DiGraph_Proc)]
@@ -469,7 +486,8 @@ def plot_crawl_outputs(crawl_outputs,
     ax.set_xlabel(f"Degrees from {max_degree_room}")
     ax.set_ylabel("Locations")
     fig.tight_layout()
-    fig.savefig(f"{save_loc}/aqw_nodes_degree.png", dpi=300)
+    # fig.savefig(f"{save_loc}/aqw_nodes_degree.png", dpi=300)
+    fig.savefig(f"{save_loc}/aqw_nodes_degree.svg", dpi=300)
 
 
 ##################################################################################################
@@ -478,30 +496,36 @@ def plot_crawl_outputs(crawl_outputs,
 def main():
     degree = np.inf
     pursue_impermanent = False
+    condition = "geo" # "geo" "none"
     sleep_duration = 1
     verbose = 2
 
     region_list_url = "http://aqwwiki.wikidot.com/locations"
     working_directory = os.getcwd()
-    crawl_output_loc = f"{working_directory}/crawl_data.json"
     color_map_loc = f"{working_directory}/region_color_map.json"
     region_map_loc = f"{working_directory}/region_map.json"
 
-    # pick a starting room in each non-empty region
-    # region_to_loc_dict = get_region_to_loc_dict(region_url=region_list_url)
-    # with open(f"{working_directory}/region_map.json", "w") as f:
-    #     json.dump(region_to_loc_dict, f, indent=4)
-    # starting_rooms = [v for k in region_to_loc_dict.keys() for v in region_to_loc_dict[k]]
-    # starting_rooms = list(set(starting_rooms))
+    os.makedirs(f"{working_directory}/{condition}", exist_ok=True)
+    crawl_output_loc = f"{working_directory}/{condition}/crawl_data.json"
 
-    # # perform crawl
-    # crawl_outputs = aqw_wiki_crawl(starting_rooms, 
-    #                                degree=degree, 
-    #                                pursue_impermanent=pursue_impermanent, 
-    #                                sleep_duration=sleep_duration, 
-    #                                verbose=2)
-    
-    # save_crawl_outputs(crawl_outputs, loc=crawl_output_loc)
+    # determine which regions contain which locations
+    region_to_loc_dict = get_region_to_loc_dict(region_url=region_list_url)
+    with open(f"{working_directory}/region_map.json", "w") as f:
+        json.dump(region_to_loc_dict, f, indent=4)
+
+    # pick a starting room in each non-empty region
+    starting_rooms = [v for k in region_to_loc_dict.keys() for v in region_to_loc_dict[k]]
+    starting_rooms = list(set(starting_rooms))
+
+    # perform crawl and save results
+    crawl_outputs = aqw_wiki_crawl(starting_rooms, 
+                                   degree=degree, 
+                                   pursue_impermanent=pursue_impermanent,
+                                   condition = condition,
+                                   sleep_duration=sleep_duration, 
+                                   verbose=2)
+    save_crawl_outputs(crawl_outputs, loc=crawl_output_loc)
+
     with open(crawl_output_loc, "r") as f:
         crawl_outputs = json.load(f)
     with open(color_map_loc, "r") as f:
@@ -511,7 +535,7 @@ def main():
     plot_crawl_outputs(crawl_outputs, 
                        color_map, 
                        region_map, 
-                       save_loc=working_directory,
+                       save_loc=f"{working_directory}/{condition}",
                        layout="forceatlas2",
                        r_fraction=0.9, 
                        min_component_size=3, 
@@ -521,10 +545,12 @@ def main():
     # plot_crawl_outputs(crawl_outputs, 
     #                    color_map, 
     #                    region_map, 
-    #                    save_loc=working_directory,
+    #                    save_loc=f"{working_directory}/{condition}",
     #                    layout="bfs",
     #                    r_fraction=0.7, 
     #                    min_component_size=3, 
     #                   )
+
+
 if __name__ == "__main__":
     main()
