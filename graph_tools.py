@@ -3,6 +3,13 @@ import networkx as nx
 ##################################################################################################
 ################################# GRAPH UTILITY FUNCTIONS ########################################
 ##################################################################################################
+def try_remove_edge(G, a, b):
+    try:
+        G.remove_edge(a, b)
+        return None
+    except nx.NetworkXError:
+        return None
+
 def remove_unreciprocated_nodes(G, nodes):
     G = G.copy()
     for target in nodes:

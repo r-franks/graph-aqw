@@ -12,7 +12,7 @@ import time
 
 from aqw_region_pull import get_region_to_loc_dict
 from graph_plotting import multi_component_graph
-from graph_tools import remove_unreciprocated_nodes, assign_by_neighbor
+from graph_tools import remove_unreciprocated_nodes, try_remove_edge, assign_by_neighbor
 
 
 ##################################################################################################
@@ -316,6 +316,35 @@ def aqw_wiki_crawl(starting_rooms, degree = 16, pursue_impermanent=False, condit
     G.add_edge("balemorale-castle", "termina-temple")
 
     G.add_edge("djinn-gate", "oasis")
+
+    try_remove_edge(G, "cleric", "akiba")
+    try_remove_edge(G, "akiba", "cleric")
+
+    try_remove_edge(G, "akiba", "skytower-aegis")
+    try_remove_edge(G, "skytower-aegis", "akiba")
+
+    try_remove_edge(G, "akiba", "beleen-s-dream")
+    try_remove_edge(G, "beleen-s-dream", "akiba")
+
+    try_remove_edge(G, "akiba", "cave-of-wanders")
+    try_remove_edge(G, "cave-of-wanders", "akiba")
+
+    try_remove_edge(G, "akiba", "librarium")
+    try_remove_edge(G, "librarium", "akiba")
+
+    try_remove_edge(G, "akiba", "skytower-aegis")
+    try_remove_edge(G, "skytower-aegis", "akiba")
+
+    try_remove_edge(G, "akiba", "vasalkar-s-lair")
+    try_remove_edge(G, "vasalkar-s-lair", "akiba")
+
+    try_remove_edge(G, "akiba", "yokai-river")
+    try_remove_edge(G, "yokai-river", "akiba")
+
+    try_remove_edge(G, "akiba", "yokai-star-river")
+    try_remove_edge(G, "yokai-star-river", "akiba")
+
+    try_remove_edge(G, "battleon", "grimskull-annex")
 
     crawl_params = {"starting_rooms": starting_rooms,
                     "degree": degree,
