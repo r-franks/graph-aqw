@@ -10,8 +10,10 @@ from matplotlib.ticker import MaxNLocator
 from urllib.parse import urljoin
 import time
 
+import argparse
+
 from aqw_region_pull import get_region_to_loc_dict
-from graph_plotting import multi_component_graph
+from graph_plotting import multi_component_graph, to_cytoscape
 from graph_tools import remove_unreciprocated_nodes, try_remove_edge, assign_by_neighbor
 
 
@@ -414,9 +416,8 @@ def plot_crawl_outputs(crawl_outputs,
     link_to_permanence_dict = crawl_outputs["link_to_permanence_dict"]
 
     Graph_Undir = nx.node_link_graph(crawl_outputs["Graph_Undir"], directed=False)
-    DiGraph_Raw = nx.node_link_graph(crawl_outputs["DiGraph_Raw"], directed=True)
     DiGraph_Proc = nx.node_link_graph(crawl_outputs["DiGraph_Proc"], directed=True)
-    all_nodes = set(list(DiGraph_Raw.nodes()))
+    all_nodes = set(list(Graph_Undir.nodes()) + list(DiGraph_Proc.nodes())) 
 
     # filter out connections to hub nodes
     hub_nodes = ["battleon", "battleontown", "castle"]
@@ -446,7 +447,7 @@ def plot_crawl_outputs(crawl_outputs,
     loc_to_region_map = assign_by_neighbor(Graph_Undir, loc_to_region_map)
     loc_to_region_map = assign_by_neighbor(DiGraph_Proc_filt.to_undirected(), loc_to_region_map)
     
-    for node in set(Graph_Undir.nodes()) - set(loc_to_region_map.keys()):
+    for node in all_nodes - set(loc_to_region_map.keys()):
         loc_to_region_map[node] = "Unknown"
     
     loc_to_color_map = {k: region_color_map.get(v, "lightblue") for k, v in loc_to_region_map.items()}
@@ -456,6 +457,7 @@ def plot_crawl_outputs(crawl_outputs,
     pos = multi_component_graph(Graph_Undir, **kwargs)
     fig, ax = plt.subplots(figsize=[48, 32])
     G = Graph_Undir.subgraph(pos.keys())
+    to_cytoscape(G, pos, loc_to_color_map, f"{save_loc}/aqw_graph_undir_ct.json")
     nx.draw(G, 
             pos, 
             with_labels=True, 
@@ -471,6 +473,7 @@ def plot_crawl_outputs(crawl_outputs,
     pos = multi_component_graph(DiGraph_Proc, **kwargs)
     fig, ax = plt.subplots(figsize=[48, 32])
     G = DiGraph_Proc.subgraph(pos.keys())
+    to_cytoscape(G, pos, loc_to_color_map, f"{save_loc}/aqw_graph_dir_raw_ct.json")
     nx.draw(G, 
             pos, 
             with_labels=True, 
@@ -486,6 +489,7 @@ def plot_crawl_outputs(crawl_outputs,
     pos = multi_component_graph(DiGraph_Proc_filt, **kwargs)
     fig, ax = plt.subplots(figsize=[48, 32])
     G = DiGraph_Proc_filt.subgraph(pos.keys())
+    to_cytoscape(G, pos, loc_to_color_map, f"{save_loc}/aqw_graph_dir_filt_ct.json")
     nx.draw(G, 
             pos, 
             with_labels=True, 
@@ -502,7 +506,7 @@ def plot_crawl_outputs(crawl_outputs,
     max_degree_room = max(DiGraph_Proc.degree, key=lambda x: x[1])[0]
 
     # plot num nodes vs degree
-    fig, ax = plt.subplots(figsize=[48, 32])
+    fig, ax = plt.subplots(figsize=[6, 4])
     nodes_from_start = []
     degree = crawl_params["degree"]
     diameters = [nx.diameter(DiGraph_Proc.subgraph(c).to_undirected()) for c in nx.weakly_connected_components(DiGraph_Proc)]
@@ -522,12 +526,17 @@ def plot_crawl_outputs(crawl_outputs,
 ##################################################################################################
 ######################################## MAIN FUNCTION ###########################################
 ##################################################################################################
-def main():
-    degree = np.inf
-    pursue_impermanent = False
-    condition = "geo" # "geo" "none"
-    sleep_duration = 1
-    verbose = 2
+def main(args):
+    if args.degree == "inf":
+        degree = np.inf
+    else:
+        degree = args.degree
+    pursue_impermanent = args.pursue_impermanent
+    condition = args.condition # "geo" "none"
+    sleep_duration = args.sleep_duration
+    verbose = args.verbose
+
+    print(args)
 
     region_list_url = "http://aqwwiki.wikidot.com/locations"
     working_directory = os.getcwd()
@@ -537,23 +546,23 @@ def main():
     os.makedirs(f"{working_directory}/{condition}", exist_ok=True)
     crawl_output_loc = f"{working_directory}/{condition}/crawl_data.json"
 
-    # determine which regions contain which locations
-    region_to_loc_dict = get_region_to_loc_dict(region_url=region_list_url)
-    with open(f"{working_directory}/region_map.json", "w") as f:
-        json.dump(region_to_loc_dict, f, indent=4)
+    # # determine which regions contain which locations
+    # region_to_loc_dict = get_region_to_loc_dict(region_url=region_list_url)
+    # with open(f"{working_directory}/region_map.json", "w") as f:
+    #     json.dump(region_to_loc_dict, f, indent=4)
 
-    # pick a starting room in each non-empty region
-    starting_rooms = [v for k in region_to_loc_dict.keys() for v in region_to_loc_dict[k]]
-    starting_rooms = list(set(starting_rooms))
+    # # pick a starting room in each non-empty region
+    # starting_rooms = [v for k in region_to_loc_dict.keys() for v in region_to_loc_dict[k]]
+    # starting_rooms = list(set(starting_rooms))
 
-    # perform crawl and save results
-    crawl_outputs = aqw_wiki_crawl(starting_rooms, 
-                                   degree=degree, 
-                                   pursue_impermanent=pursue_impermanent,
-                                   condition = condition,
-                                   sleep_duration=sleep_duration, 
-                                   verbose=2)
-    save_crawl_outputs(crawl_outputs, loc=crawl_output_loc)
+    # # perform crawl and save results
+    # crawl_outputs = aqw_wiki_crawl(starting_rooms, 
+    #                                degree=degree, 
+    #                                pursue_impermanent=pursue_impermanent,
+    #                                condition = condition,
+    #                                sleep_duration=sleep_duration, 
+    #                                verbose=2)
+    # save_crawl_outputs(crawl_outputs, loc=crawl_output_loc)
 
     with open(crawl_output_loc, "r") as f:
         crawl_outputs = json.load(f)
@@ -582,4 +591,15 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Create the parser
+    parser = argparse.ArgumentParser(description="AQW Wiki Crawl")
+    # Add arguments
+    parser.add_argument("--condition", default="none", help="Condition to to filter access points on (either none or geo)")
+    parser.add_argument("--degree", default="inf", help="Degrees of separation to crawl")
+    parser.add_argument("--pursue_impermanent", default=False, help="Degrees of separation to crawl")
+    parser.add_argument("--sleep_duration", default=1, help="Seconds to sleep between site requests")
+    parser.add_argument("--verbose", default=2, help="verbose level")
+
+    # Parse the arguments
+    args = parser.parse_args()
+    main(args)

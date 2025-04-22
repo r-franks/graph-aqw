@@ -10,6 +10,7 @@ def try_remove_edge(G, a, b):
     except nx.NetworkXError:
         return None
 
+
 def remove_unreciprocated_nodes(G, nodes):
     G = G.copy()
     for target in nodes:

@@ -8,6 +8,7 @@ import random
 import packcircles as pc
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+import matplotlib.colors as mcolors
 
 
 def multi_component_graph(G, layout="kamada_kawai", r_fraction=1.0, padding=2, min_component_size=1, **layout_params):
@@ -79,3 +80,25 @@ def multi_component_graph(G, layout="kamada_kawai", r_fraction=1.0, padding=2, m
             pos_subG_rescale_shift[k] = v + np.array([x,y])  - center
 
     return pos_subG_rescale_shift
+
+
+def to_cytoscape(G, pos, node_to_color_map, save_loc=None):
+    elements = []
+    for node in pos.keys():
+        node_data = {
+            'data': {'id': node, 'color': mcolors.to_hex(node_to_color_map[node])},
+            'position': {'x': pos[node][0], 'y': pos[node][1]}
+        }
+        elements.append(node_data)
+    
+    for source, target in G.edges():
+        if source in pos.keys() and target in pos.keys():
+            edge_data = {
+                'data': {'id': f'{source}-{target}', 'source': str(source), 'target': str(target)}
+            }
+            elements.append(edge_data)
+
+    if save_loc is not None:
+        with open(save_loc, "w") as f:
+            json.dump(elements, f, indent=4)
+    return elements
