@@ -3,6 +3,40 @@ AdventureQuest Worlds (AQW for short) is a decade-plus old flash game where you 
 
 As more and more locations have been added (over a thousand!) without commensurate map updates, teleportation by text-command has become a load-bearing feature of AQW -- used both out of necessity and convenience -- and the topography of the world has become easy to forget. In this repository, we seek to remember: to reconstruct the "true" topology of AQW. And all the information we need is on the [AQW Wiki](http://aqwwiki.wikidot.com/).
 
+## Usage
+To run the code, simply navigate to the folder where this repository located on your computer and run the code
+
+<code>python aqw_loc_crawl</code>
+
+By default, this code crawls the AQW Wiki and makes note of all connections between locations that are not seasonal or rare. If you would like to filter connections to only those that reflect physicality/geography (see below for details), you may run this code with the <code>condition</code> argument.
+
+<code>python aqw_loc_crawl --condition geo</code>
+
+This argument is the most important. To see others, you may run <code>python aqw_loc_crawl.py -h</code>.
+
+### Outputs
+If no condition is applied to filter connections, the results of the script will be placed in the <code>/none</code> sub-directory. Otherwise, they will be placed in the <code>/geo</code> sub-directory. The files contained in these directories include:
+* crawl_data.json: A JSON file containing all graph information. Keys include
+  * crawl_params: parameters used to run the crawl
+  * crawl_time: time taken to perform the Wiki crawl
+  * requests: count of total number of requests made to the Wiki
+  * link_to_name_dict: maps AQW Wiki extensions to map names
+  * link_to_permanence_dict: maps AQW Wiki extensions to whether the locations are permanent (not seasonal or rare)
+  * DiGraph_Raw: directed graph using Wiki extensions for node names
+  * DiGraph_Proc: directed graph using map names for node names
+  * Graph_Undir: undirected graph containing bi-directional connections only
+
+* Visualization files for the graph of bi-directional connections
+  * aqw_graph_undir.svg: SVG plot
+  * aqw_graph_undir_ct.json: cytoscape information for display on websites
+* Visualization files for the directed graph
+  * aqw_graph_dir_raw.svg: SVG plot
+  * aqw_graph_dir_raw_ct.json: cytoscape information for display on websites
+* Visualization files for the directed graph with un-reciprocated connections to hub-towns filtered out
+  * aqw_graph_dir_filt.svg: SVG plot
+  * aqw_graph_dir_filt_ct.json: cytoscape information for display on websites
+
+
 ## Approach
 ### Information retrieval approach
 Each location page on the AQW Wiki lists all the ways its location can be accessed from other locations, i.e. its "access points." For example, if we see the location <code>battleon-town</code> under the "access points" header on the Wiki page for <code>battleon</code>, we can conclude that there is a connection <code>battleon-town</code>&rarr;<code>battleon</code> which provides information about the topology of AQW. After recording all of the access points, we can further pull-up the Wiki pages for each of those access points in turn and learn <em>their</em> access points. We might learn that there is a connection <code>greenguard-east</code>&rarr;<code>battleon-town</code> which means that <code>greenguard-east</code>&rarr;<code>battleon-town</code>&rarr;<code>battleon</code> is a route that can be used to access <code>battleon</code> from <code>greenguard-east</code>. By repeating this process recursively from some starting location, we can learn about the connections of all locations that might be used to access the starting location. This recursive approach is implemented in the [<code>aqw_wiki_crawl</code>](https://github.com/r-franks/graph-aqw/blob/main/aqw_loc_crawl.py) function.
