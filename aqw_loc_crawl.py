@@ -457,7 +457,7 @@ def plot_crawl_outputs(crawl_outputs,
     pos = multi_component_graph(Graph_Undir, **kwargs)
     fig, ax = plt.subplots(figsize=[48, 32])
     G = Graph_Undir.subgraph(pos.keys())
-    to_cytoscape(G, pos, loc_to_color_map, f"{save_loc}/aqw_graph_undir_ct.json")
+    to_cytoscape(G, pos, loc_to_color_map, loc_to_region_map, f"{save_loc}/aqw_graph_undir_ct.json")
     nx.draw(G, 
             pos, 
             with_labels=True, 
@@ -473,7 +473,7 @@ def plot_crawl_outputs(crawl_outputs,
     pos = multi_component_graph(DiGraph_Proc, **kwargs)
     fig, ax = plt.subplots(figsize=[48, 32])
     G = DiGraph_Proc.subgraph(pos.keys())
-    to_cytoscape(G, pos, loc_to_color_map, f"{save_loc}/aqw_graph_dir_raw_ct.json")
+    to_cytoscape(G, pos, loc_to_color_map, loc_to_region_map, f"{save_loc}/aqw_graph_dir_raw_ct.json")
     nx.draw(G, 
             pos, 
             with_labels=True, 
@@ -489,7 +489,7 @@ def plot_crawl_outputs(crawl_outputs,
     pos = multi_component_graph(DiGraph_Proc_filt, **kwargs)
     fig, ax = plt.subplots(figsize=[48, 32])
     G = DiGraph_Proc_filt.subgraph(pos.keys())
-    to_cytoscape(G, pos, loc_to_color_map, f"{save_loc}/aqw_graph_dir_filt_ct.json")
+    to_cytoscape(G, pos, loc_to_color_map, loc_to_region_map, f"{save_loc}/aqw_graph_dir_filt_ct.json")
     nx.draw(G, 
             pos, 
             with_labels=True, 
@@ -536,8 +536,6 @@ def main(args):
     sleep_duration = args.sleep_duration
     verbose = args.verbose
 
-    print(args)
-
     region_list_url = "http://aqwwiki.wikidot.com/locations"
     working_directory = os.getcwd()
     color_map_loc = f"{working_directory}/region_color_map.json"
@@ -546,23 +544,23 @@ def main(args):
     os.makedirs(f"{working_directory}/{condition}", exist_ok=True)
     crawl_output_loc = f"{working_directory}/{condition}/crawl_data.json"
 
-    # # determine which regions contain which locations
-    # region_to_loc_dict = get_region_to_loc_dict(region_url=region_list_url)
-    # with open(f"{working_directory}/region_map.json", "w") as f:
-    #     json.dump(region_to_loc_dict, f, indent=4)
+    # determine which regions contain which locations
+    region_to_loc_dict = get_region_to_loc_dict(region_url=region_list_url)
+    with open(f"{working_directory}/region_map.json", "w") as f:
+        json.dump(region_to_loc_dict, f, indent=4)
 
-    # # pick a starting room in each non-empty region
-    # starting_rooms = [v for k in region_to_loc_dict.keys() for v in region_to_loc_dict[k]]
-    # starting_rooms = list(set(starting_rooms))
+    # pick a starting room in each non-empty region
+    starting_rooms = [v for k in region_to_loc_dict.keys() for v in region_to_loc_dict[k]]
+    starting_rooms = list(set(starting_rooms))
 
-    # # perform crawl and save results
-    # crawl_outputs = aqw_wiki_crawl(starting_rooms, 
-    #                                degree=degree, 
-    #                                pursue_impermanent=pursue_impermanent,
-    #                                condition = condition,
-    #                                sleep_duration=sleep_duration, 
-    #                                verbose=2)
-    # save_crawl_outputs(crawl_outputs, loc=crawl_output_loc)
+    # perform crawl and save results
+    crawl_outputs = aqw_wiki_crawl(starting_rooms, 
+                                   degree=degree, 
+                                   pursue_impermanent=pursue_impermanent,
+                                   condition = condition,
+                                   sleep_duration=sleep_duration, 
+                                   verbose=2)
+    save_crawl_outputs(crawl_outputs, loc=crawl_output_loc)
 
     with open(crawl_output_loc, "r") as f:
         crawl_outputs = json.load(f)

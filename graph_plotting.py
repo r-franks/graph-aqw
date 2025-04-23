@@ -82,11 +82,14 @@ def multi_component_graph(G, layout="kamada_kawai", r_fraction=1.0, padding=2, m
     return pos_subG_rescale_shift
 
 
-def to_cytoscape(G, pos, node_to_color_map, save_loc=None):
+def to_cytoscape(G, pos, node_to_color_map, node_to_info_map=None, save_loc=None):
     elements = []
     for node in pos.keys():
+        data = {'id': node, 'color': mcolors.to_hex(node_to_color_map[node])}
+        if node_to_info_map is not None:
+            data['info'] = node_to_info_map[node]
         node_data = {
-            'data': {'id': node, 'color': mcolors.to_hex(node_to_color_map[node])},
+            'data': data,
             'position': {'x': pos[node][0], 'y': pos[node][1]}
         }
         elements.append(node_data)
@@ -94,7 +97,9 @@ def to_cytoscape(G, pos, node_to_color_map, save_loc=None):
     for source, target in G.edges():
         if source in pos.keys() and target in pos.keys():
             edge_data = {
-                'data': {'id': f'{source}-{target}', 'source': str(source), 'target': str(target)}
+                'data': {'id': f'{source}-{target}', 
+                         'source': str(source), 
+                         'target': str(target)}
             }
             elements.append(edge_data)
 
